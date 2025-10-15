@@ -7,6 +7,28 @@ h1 {
   margin-top: 20px;
 }
 
+/* Navigation menu */
+.menu ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu ul li a:hover {
+  color: #c49a6c; /* coffee-like hover color */
+}
+
+/* Products grid */
 .products {
   display: flex;
   gap: 20px;
@@ -22,12 +44,18 @@ h1 {
   border-radius: 8px;
   width: 180px;
   box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }
 
 .product-card img {
   margin-bottom: 10px;
 }
 
+/* Buttons */
 button {
   background-color: #6f4e37;
   color: white;
@@ -35,6 +63,7 @@ button {
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 button:hover {
