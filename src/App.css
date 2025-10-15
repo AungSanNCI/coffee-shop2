@@ -7,6 +7,49 @@ h1 {
   margin-top: 20px;
 }
 
+.products {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  width: 180px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #6f4e37;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #8b5e3c;
+}
+============================================
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
 /* Navigation menu */
 .menu ul {
   list-style: none;
@@ -55,3 +98,17 @@ h1 {
   margin-bottom: 10px;
 }
 
+/* Buttons */
+button {
+  background-color: #6f4e37;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #8b5e3c;
+}
