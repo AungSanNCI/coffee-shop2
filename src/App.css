@@ -55,17 +55,3 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Buttons */
-button {
-  background-color: #6f4e37;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #8b5e3c;
-}
