@@ -1,8 +1,10 @@
 import React from "react";
 import "./App.css";
-import coffee1 from "./images/coffee1.jpg";
-import coffee2 from "./images/coffee2.jpg";
-import coffee3 from "./images/coffee3.jpg";
+
+// Replace these URLs with your own S3 image URLs
+const coffee1 = "https://coffee-shop-images.s3.amazonaws.com/coffee1.jpg";
+const coffee2 = "https://coffee-shop-images.s3.amazonaws.com/coffee2.jpg";
+const coffee3 = "https://coffee-shop-images.s3.amazonaws.com/coffee3.jpg";
 
 function App() {
   const products = [
@@ -29,3 +31,4 @@ function App() {
 }
 
 export default App;
+
