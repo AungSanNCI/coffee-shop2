@@ -1,12 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import About from "./About";
-import Contact from "./Contact";
 import coffee1 from "./images/coffee1.jpg";
 import coffee2 from "./images/coffee2.jpg";
 import coffee3 from "./images/coffee3.jpg";
 import "./App.css";
 
+// About Page
+function About() {
+  return <h2>About Our Coffee Shop</h2>;
+}
+
+// Contact Page
+function Contact() {
+  return <h2>Contact Us</h2>;
+}
+
+// Home Page (Products)
 function Home() {
   const products = [
     { id: 1, name: "Espresso", price: 2.5, img: coffee1 },
@@ -28,11 +37,14 @@ function Home() {
   );
 }
 
+// Main App
 function App() {
   return (
     <Router>
       <div className="App">
         <h1>Coffee Shop</h1>
+
+        {/* Navigation Menu */}
         <nav className="menu">
           <ul>
             <li><Link to="/">Home</Link></li>
@@ -40,6 +52,8 @@ function App() {
             <li><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
+
+        {/* Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
