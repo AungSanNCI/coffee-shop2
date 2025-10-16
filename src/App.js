@@ -21,18 +21,28 @@ function App() {
     e.preventDefault();
     console.log("Order submitted:", order);
 
-    // TODO: Replace with your AWS Lambda API endpoint
-    fetch("https://your-api-endpoint.amazonaws.com/prod/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order),
-    })
+    // ✅ Replace with your real AWS Lambda API Gateway endpoint
+    fetch(
+      "https://d8rnt8j0w2.execute-api.us-east-1.amazonaws.com/default/SaveCoffeeOrder",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(order),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
-        alert(`Order submitted! Thank you, ${order.name}`);
-        setOrder({ name: "", type: "", quantity: 1 });
+        if (data.message === "Order saved!") {
+          alert(`Order submitted! Thank you, ${order.name}\nOrder ID: ${data.orderId}`);
+          setOrder({ name: "", type: "", quantity: 1 });
+        } else {
+          alert("Error submitting order: " + data.message);
+        }
       })
-      .catch((err) => console.error("Error:", err));
+      .catch((err) => {
+        console.error("Error:", err);
+        alert("Error submitting order. Check console for details.");
+      });
   };
 
   return (
@@ -63,7 +73,9 @@ function App() {
               <img src={p.img} alt={p.name} width="150" />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button>Checkout</button>
+              <button onClick={() => setOrder({ ...order, type: p.name })}>
+                Select {p.name}
+              </button>
             </div>
           ))}
         </div>
