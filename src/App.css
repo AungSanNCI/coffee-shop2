@@ -1,18 +1,79 @@
-.App {
-  text-align: center;
-  font-family: Arial, sans-serif;
+/* Navigation menu */
+.menu ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 10px;
 }
 
-h1 {
+.menu ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu ul li a:hover {
+  color: #c49a6c;
+}
+
+/* Products grid */
+.products {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-top: 20px;
 }
 
-/* Navigation menu */
-.menu ul { ... }
+.product-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  border-radius: 8px;
+  width: 180px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
 
-/* Products grid */
-.products { ... }
-.product-card { ... }
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img {
+  margin-bottom: 10px;
+}
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.order-form input,
+.order-form select,
+.order-form button {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.order-form button {
+  background-color: #6b4f4f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.order-form button:hover {
+  background-color: #4a302f;
+}
 
 .order-confirmation {
   margin-top: 15px;
@@ -22,6 +83,3 @@ h1 {
   color: #fff;
   background-color: #6b4f4f;
 }
-
-/* Order form */
-.order-form { ... }
