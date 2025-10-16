@@ -3,10 +3,6 @@ import "./App.css";
 import coffee1 from "./images/coffee1.jpg";
 import coffee2 from "./images/coffee2.jpg";
 import coffee3 from "./images/coffee3.jpg";
-import Amplify, { API } from "aws-amplify";
-import awsExports from "./aws-exports";
-
-Amplify.configure(awsExports);
 
 function App() {
   const products = [
@@ -21,21 +17,27 @@ function App() {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = async (e) => {
+  const handleOrderSubmit = (e) => {
     e.preventDefault();
-    try {
-      const response = await API.post("ordersApi", "/orders", { body: order });
-      alert(`Order submitted! Thank you, ${order.name}. Order ID: ${response.orderId}`);
-      setOrder({ name: "", type: "", quantity: 1 });
-    } catch (err) {
-      console.error("Error submitting order:", err);
-      alert("Failed to submit order. Please try again.");
-    }
+    console.log("Order submitted:", order);
+
+    // TODO: Replace with your AWS Lambda API endpoint
+    fetch("https://your-api-endpoint.amazonaws.com/prod/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert(`Order submitted! Thank you, ${order.name}`);
+        setOrder({ name: "", type: "", quantity: 1 });
+      })
+      .catch((err) => console.error("Error:", err));
   };
 
   return (
     <div className="App">
-      {/* Navigation */}
+      {/* ===== Navigation Bar ===== */}
       <nav className="menu">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -46,13 +48,13 @@ function App() {
         </ul>
       </nav>
 
-      {/* Home */}
+      {/* ===== Home Section ===== */}
       <section id="home">
         <h1>☕ Coffee Shop</h1>
         <p>Freshly brewed happiness in every cup.</p>
       </section>
 
-      {/* Menu */}
+      {/* ===== Menu Section ===== */}
       <section id="menu">
         <h2>Our Menu</h2>
         <div className="products">
@@ -61,15 +63,13 @@ function App() {
               <img src={p.img} alt={p.name} width="150" />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button onClick={() => setOrder({ ...order, type: p.name, quantity: 1 })}>
-                Checkout
-              </button>
+              <button>Checkout</button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Order Form */}
+      {/* ===== Order Section ===== */}
       <section id="order">
         <h2>Place Your Order</h2>
         <form className="order-form" onSubmit={handleOrderSubmit}>
@@ -81,7 +81,12 @@ function App() {
             onChange={handleOrderChange}
             required
           />
-          <select name="type" value={order.type} onChange={handleOrderChange} required>
+          <select
+            name="type"
+            value={order.type}
+            onChange={handleOrderChange}
+            required
+          >
             <option value="">Select Coffee Type</option>
             {products.map((p) => (
               <option key={p.id} value={p.name}>{p.name}</option>
@@ -100,16 +105,17 @@ function App() {
         </form>
       </section>
 
-      {/* About */}
+      {/* ===== About Section ===== */}
       <section id="about">
         <h2>About Us</h2>
         <p>
           At Coffee Shop, we handcraft every cup using premium coffee beans sourced
-          from sustainable farms around the world.
+          from sustainable farms around the world. Whether you prefer espresso,
+          latte, or cappuccino, every sip is a taste of perfection.
         </p>
       </section>
 
-      {/* Contact */}
+      {/* ===== Contact Section ===== */}
       <section id="contact">
         <h2>Contact Us</h2>
         <p>Email: hello@coffeeshop.com</p>
