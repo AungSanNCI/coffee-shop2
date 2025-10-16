@@ -55,3 +55,11 @@ h1 {
   margin-bottom: 10px;
 }
 
+.order-confirmation {
+  margin-top: 15px;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #6b4f4f;
+}
