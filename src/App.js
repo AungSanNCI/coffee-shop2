@@ -12,27 +12,37 @@ function App() {
   ];
 
   const [order, setOrder] = useState({ name: "", type: "", quantity: 1 });
+  const [confirmation, setConfirmation] = useState(""); // <-- New
 
   const handleOrderChange = (e) => {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
-    console.log("Order submitted:", order);
 
-    // TODO: Replace with your AWS Lambda API endpoint
-    fetch("https://your-api-endpoint.amazonaws.com/prod/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        alert(`Order submitted! Thank you, ${order.name}`);
-        setOrder({ name: "", type: "", quantity: 1 });
-      })
-      .catch((err) => console.error("Error:", err));
+    try {
+      const response = await fetch(
+        "https://<YOUR_API_GATEWAY_ENDPOINT>/orders", // <-- Replace with your real API endpoint
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(order),
+        }
+      );
+
+      const data = await response.json();
+      const body = JSON.parse(data.body); // Lambda returns body as string
+
+      setConfirmation(`✅ ${body.message} — Order ID: ${body.orderId}`);
+      setOrder({ name: "", type: "", quantity: 1 });
+
+      // Optional: hide confirmation after 5s
+      setTimeout(() => setConfirmation(""), 5000);
+    } catch (err) {
+      console.error("Error:", err);
+      setConfirmation("❌ Failed to submit order. Please try again.");
+    }
   };
 
   return (
@@ -103,6 +113,11 @@ function App() {
           />
           <button type="submit">Submit Order</button>
         </form>
+
+        {/* ===== Confirmation Message ===== */}
+        {confirmation && (
+          <div className="order-confirmation">{confirmation}</div>
+        )}
       </section>
 
       {/* ===== About Section ===== */}
