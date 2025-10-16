@@ -3,6 +3,10 @@ import "./App.css";
 import coffee1 from "./images/coffee1.jpg";
 import coffee2 from "./images/coffee2.jpg";
 import coffee3 from "./images/coffee3.jpg";
+import Amplify, { API } from "aws-amplify";
+import awsExports from "./aws-exports";
+
+Amplify.configure(awsExports);
 
 function App() {
   const products = [
@@ -17,37 +21,21 @@ function App() {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
-    console.log("Order submitted:", order);
-
-    // ✅ Replace with your real AWS Lambda API Gateway endpoint
-    fetch(
-      "https://d8rnt8j0w2.execute-api.us-east-1.amazonaws.com/default/SaveCoffeeOrder",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(order),
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message === "Order saved!") {
-          alert(`Order submitted! Thank you, ${order.name}\nOrder ID: ${data.orderId}`);
-          setOrder({ name: "", type: "", quantity: 1 });
-        } else {
-          alert("Error submitting order: " + data.message);
-        }
-      })
-      .catch((err) => {
-        console.error("Error:", err);
-        alert("Error submitting order. Check console for details.");
-      });
+    try {
+      const response = await API.post("ordersApi", "/orders", { body: order });
+      alert(`Order submitted! Thank you, ${order.name}. Order ID: ${response.orderId}`);
+      setOrder({ name: "", type: "", quantity: 1 });
+    } catch (err) {
+      console.error("Error submitting order:", err);
+      alert("Failed to submit order. Please try again.");
+    }
   };
 
   return (
     <div className="App">
-      {/* ===== Navigation Bar ===== */}
+      {/* Navigation */}
       <nav className="menu">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -58,13 +46,13 @@ function App() {
         </ul>
       </nav>
 
-      {/* ===== Home Section ===== */}
+      {/* Home */}
       <section id="home">
         <h1>☕ Coffee Shop</h1>
         <p>Freshly brewed happiness in every cup.</p>
       </section>
 
-      {/* ===== Menu Section ===== */}
+      {/* Menu */}
       <section id="menu">
         <h2>Our Menu</h2>
         <div className="products">
@@ -73,15 +61,15 @@ function App() {
               <img src={p.img} alt={p.name} width="150" />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button onClick={() => setOrder({ ...order, type: p.name })}>
-                Select {p.name}
+              <button onClick={() => setOrder({ ...order, type: p.name, quantity: 1 })}>
+                Checkout
               </button>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ===== Order Section ===== */}
+      {/* Order Form */}
       <section id="order">
         <h2>Place Your Order</h2>
         <form className="order-form" onSubmit={handleOrderSubmit}>
@@ -93,12 +81,7 @@ function App() {
             onChange={handleOrderChange}
             required
           />
-          <select
-            name="type"
-            value={order.type}
-            onChange={handleOrderChange}
-            required
-          >
+          <select name="type" value={order.type} onChange={handleOrderChange} required>
             <option value="">Select Coffee Type</option>
             {products.map((p) => (
               <option key={p.id} value={p.name}>{p.name}</option>
@@ -117,17 +100,16 @@ function App() {
         </form>
       </section>
 
-      {/* ===== About Section ===== */}
+      {/* About */}
       <section id="about">
         <h2>About Us</h2>
         <p>
           At Coffee Shop, we handcraft every cup using premium coffee beans sourced
-          from sustainable farms around the world. Whether you prefer espresso,
-          latte, or cappuccino, every sip is a taste of perfection.
+          from sustainable farms around the world.
         </p>
       </section>
 
-      {/* ===== Contact Section ===== */}
+      {/* Contact */}
       <section id="contact">
         <h2>Contact Us</h2>
         <p>Email: hello@coffeeshop.com</p>
