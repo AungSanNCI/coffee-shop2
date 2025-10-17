@@ -12,6 +12,7 @@ function App() {
   ];
 
   const [order, setOrder] = useState({ name: "", type: "", quantity: 1 });
+  const [checkoutComplete, setCheckoutComplete] = useState(false);
 
   const handleOrderChange = (e) => {
     setOrder({ ...order, [e.target.name]: e.target.value });
@@ -33,6 +34,11 @@ function App() {
         setOrder({ name: "", type: "", quantity: 1 });
       })
       .catch((err) => console.error("Error:", err));
+  };
+
+  const handleCheckout = (coffeeName) => {
+    setCheckoutComplete(true);
+    setTimeout(() => setCheckoutComplete(false), 3000); // hide after 3 sec
   };
 
   return (
@@ -63,7 +69,7 @@ function App() {
               <img src={p.img} alt={p.name} width="150" />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button>Checkout</button>
+              <button onClick={() => handleCheckout(p.name)}>Checkout</button>
             </div>
           ))}
         </div>
@@ -122,6 +128,17 @@ function App() {
         <p>Phone: +1 (555) 123-4567</p>
         <p>Visit us: 123 Brew Street, Bean City</p>
       </section>
+
+      {/* ===== Success Popup ===== */}
+      {checkoutComplete && (
+        <div className="success-popup">
+          <svg className="checkmark" viewBox="0 0 52 52">
+            <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path className="checkmark__check" fill="none" d="M14 27l7 7 16-16"/>
+          </svg>
+          <h3>Order Complete!</h3>
+        </div>
+      )}
     </div>
   );
 }
