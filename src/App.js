@@ -35,15 +35,16 @@ function App() {
         }
       );
 
+      // Always parse JSON safely
       const result = await response.json();
       console.log("Lambda response:", result);
 
-      if (response.ok) {
+      if (response.ok && result.message === "Order saved!") {
         setCheckoutComplete(true);
         setTimeout(() => setCheckoutComplete(false), 3000);
         setOrder({ name: "", type: "", quantity: 1 });
       } else {
-        alert(result.error || "Failed to submit order. Try again.");
+        alert("Failed to submit order. Try again.");
       }
     } catch (err) {
       console.error("Error sending order to Lambda:", err);
@@ -121,7 +122,8 @@ function App() {
         <h2>About Us</h2>
         <p>
           At Coffee Shop, we handcraft every cup using premium coffee beans sourced
-          from sustainable farms around the world. Every sip is a taste of perfection.
+          from sustainable farms around the world. Whether you prefer espresso,
+          latte, or cappuccino, every sip is a taste of perfection.
         </p>
       </section>
 
