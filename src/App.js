@@ -26,13 +26,16 @@ function App() {
     console.log("Submitting order:", orderWithId);
 
     try {
-      const response = await fetch("https://YOUR_LAMBDA_URL_HERE", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderWithId),
-      });
+      const response = await fetch(
+        "https://s65gk4q6kpmlx4iopv2b56c23u0ejdaq.lambda-url.us-east-1.on.aws/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(orderWithId),
+        }
+      );
 
       const result = await response.json();
       console.log("Lambda response:", result);
