@@ -30,15 +30,11 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        alert(`Order submitted! Thank you, ${order.name}`);
+        setCheckoutComplete(true);
+        setTimeout(() => setCheckoutComplete(false), 3000); // hide after 3 sec
         setOrder({ name: "", type: "", quantity: 1 });
       })
       .catch((err) => console.error("Error:", err));
-  };
-
-  const handleCheckout = (coffeeName) => {
-    setCheckoutComplete(true);
-    setTimeout(() => setCheckoutComplete(false), 3000); // hide after 3 sec
   };
 
   return (
@@ -69,7 +65,7 @@ function App() {
               <img src={p.img} alt={p.name} width="150" />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button onClick={() => handleCheckout(p.name)}>Checkout</button>
+              <button disabled>Checkout</button>
             </div>
           ))}
         </div>
