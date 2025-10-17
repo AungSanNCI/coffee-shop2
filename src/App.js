@@ -3,7 +3,7 @@ import "./App.css";
 import coffee1 from "./images/coffee1.jpg";
 import coffee2 from "./images/coffee2.jpg";
 import coffee3 from "./images/coffee3.jpg";
-import { v4 as uuidv4 } from "uuid"; // <-- Added uuid import
+import { v4 as uuidv4 } from "uuid"; // UUID import
 
 function App() {
   const products = [
@@ -19,17 +19,35 @@ function App() {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
 
-    // Add a unique ID to the order
     const orderWithId = { ...order, id: uuidv4() };
-    console.log("Order submitted:", orderWithId);
+    console.log("Submitting order:", orderWithId);
 
-    // Simulated submit
-    setCheckoutComplete(true);
-    setTimeout(() => setCheckoutComplete(false), 3000);
-    setOrder({ name: "", type: "", quantity: 1 });
+    try {
+      const response = await fetch("https://YOUR_LAMBDA_URL_HERE", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderWithId),
+      });
+
+      const result = await response.json();
+      console.log("Lambda response:", result);
+
+      if (response.ok) {
+        setCheckoutComplete(true);
+        setTimeout(() => setCheckoutComplete(false), 3000);
+        setOrder({ name: "", type: "", quantity: 1 });
+      } else {
+        alert("Failed to submit order. Try again.");
+      }
+    } catch (err) {
+      console.error("Error sending order to Lambda:", err);
+      alert("Failed to submit order. Try again.");
+    }
   };
 
   return (
