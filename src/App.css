@@ -1,4 +1,142 @@
-/* ===== Success Popup Animation ===== */
+/* === Global === */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  background: #fafafa;
+  color: #333;
+  text-align: center;
+}
+
+/* === Navbar === */
+.menu {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.menu ul li a {
+  text-decoration: none;
+  color: #4b2e05;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.menu ul li a:hover {
+  color: #d2691e;
+}
+
+/* === Sections === */
+section {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* === Header === */
+#home h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+#home p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* === Menu Section === */
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 220px;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-card img {
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.product-card h3 {
+  margin: 15px 0 5px;
+}
+
+.product-card p {
+  font-weight: bold;
+  color: #4b2e05;
+  margin-bottom: 10px;
+}
+
+.product-card button {
+  background-color: #d2691e;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: not-allowed;
+}
+
+/* === Order Form === */
+.order-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.order-form input,
+.order-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 250px;
+  font-size: 1rem;
+}
+
+.order-form button {
+  background-color: #4b2e05;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.order-form button:hover {
+  background-color: #d2691e;
+}
+
+/* === Success Popup Animation === */
 .success-popup {
   position: fixed;
   top: 50%;
