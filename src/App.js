@@ -18,18 +18,36 @@ function App() {
     setOrder({ ...order, [e.target.name]: e.target.value });
   };
 
-  const handleOrderSubmit = (e) => {
+  const handleOrderSubmit = async (e) => {
     e.preventDefault();
-    console.log("Order submitted:", order);
 
-    // Simulated submit
-    setCheckoutComplete(true);
-    setTimeout(() => setCheckoutComplete(false), 3000);
-    setOrder({ name: "", type: "", quantity: 1 });
+    try {
+      const response = await fetch(
+        "https://jslffowdcj.execute-api.us-east-1.amazonaws.com/default/coffeeOrderHandler",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(order),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Order submitted to AWS:", order);
+        setCheckoutComplete(true);
+        setTimeout(() => setCheckoutComplete(false), 3000);
+        setOrder({ name: "", type: "", quantity: 1 });
+      } else {
+        console.error("Error submitting order:", response.statusText);
+        alert("Failed to submit order. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong. Please check your network or API setup.");
+    }
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{ textAlign: "center" }}>
       <nav className="menu">
         <ul>
           <li><a href="#home">Home</a></li>
@@ -97,9 +115,9 @@ function App() {
       <section id="about">
         <h2>About Us</h2>
         <p>
-          At Coffee Shop, we handcraft every cup using premium coffee beans sourced
-          from sustainable farms around the world. Whether you prefer espresso,
-          latte, or cappuccino, every sip is a taste of perfection.
+          At Coffee Shop, we handcraft every cup using premium coffee beans
+          sourced from sustainable farms around the world. Whether you prefer
+          espresso, latte, or cappuccino, every sip is a taste of perfection.
         </p>
       </section>
 
@@ -113,8 +131,18 @@ function App() {
       {checkoutComplete && (
         <div className="success-popup">
           <svg className="checkmark" viewBox="0 0 52 52">
-            <circle className="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-            <path className="checkmark__check" fill="none" d="M14 27l7 7 16-16"/>
+            <circle
+              className="checkmark__circle"
+              cx="26"
+              cy="26"
+              r="25"
+              fill="none"
+            />
+            <path
+              className="checkmark__check"
+              fill="none"
+              d="M14 27l7 7 16-16"
+            />
           </svg>
           <h3>Order Complete!</h3>
         </div>
