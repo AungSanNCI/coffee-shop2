@@ -3,7 +3,7 @@ import "./App.css";
 import coffee1 from "./images/coffee1.jpg";
 import coffee2 from "./images/coffee2.jpg";
 import coffee3 from "./images/coffee3.jpg";
-import { v4 as uuidv4 } from "uuid"; // UUID import
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const products = [
@@ -30,21 +30,12 @@ function App() {
         "https://s65gk4q6kpmlx4iopv2b56c23u0ejdaq.lambda-url.us-east-1.on.aws/",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(orderWithId),
         }
       );
 
-      // Try to parse Lambda response
-      let result;
-      try {
-        result = await response.json();
-      } catch {
-        result = { message: "No JSON returned" };
-      }
-
+      const result = await response.json();
       console.log("Lambda response:", result);
 
       if (response.ok) {
@@ -52,7 +43,7 @@ function App() {
         setTimeout(() => setCheckoutComplete(false), 3000);
         setOrder({ name: "", type: "", quantity: 1 });
       } else {
-        alert("Failed to submit order. Try again.");
+        alert(result.error || "Failed to submit order. Try again.");
       }
     } catch (err) {
       console.error("Error sending order to Lambda:", err);
@@ -130,8 +121,7 @@ function App() {
         <h2>About Us</h2>
         <p>
           At Coffee Shop, we handcraft every cup using premium coffee beans sourced
-          from sustainable farms around the world. Whether you prefer espresso,
-          latte, or cappuccino, every sip is a taste of perfection.
+          from sustainable farms around the world. Every sip is a taste of perfection.
         </p>
       </section>
 
