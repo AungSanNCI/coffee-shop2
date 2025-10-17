@@ -37,7 +37,14 @@ function App() {
         }
       );
 
-      const result = await response.json();
+      // Try to parse Lambda response
+      let result;
+      try {
+        result = await response.json();
+      } catch {
+        result = { message: "No JSON returned" };
+      }
+
       console.log("Lambda response:", result);
 
       if (response.ok) {
